@@ -1,0 +1,26 @@
+{
+  "name": "cognito-service",
+  "version": "1.0.0",
+  "description": "A working demo of using AWS cognito as a backend service in NodeJS ( with Express Framework) to handle Authentication",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev":"nodemon",
+    "start":"node dist/server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@git-personal:talhatahir/cognito-service.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.1",
+    "express": "^4.17.2",
+    "express-validator": "^6.14.0"
+  },
+  "devDependencies": {
+    "node": "^17.3.0",
+    "nodemon": "^2.0.15"
+  }
+}
