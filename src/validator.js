@@ -10,12 +10,12 @@ const validator = (type) => {
       ];
     case "signin":
       return [
-        body("username").notEmpty().isLength({ min: 6 }),
+        body("email").notEmpty().isLength({ min: 6 }),
         body("password").isString().isLength({ min: 8 }),
       ];
     case "verify":
       return [
-        body("username").notEmpty().isLength({ min: 6 }),
+        body("email").notEmpty().isLength({ min: 6 }),
         body("code").isString().isLength({ min: 6, max: 6 }),
       ];
 

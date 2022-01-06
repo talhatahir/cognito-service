@@ -10,14 +10,33 @@ const cognitoIdentity = new CognitoIdentityProvider({ region: config.region });
 
 const cognito = exports;
 
-cognito.signIn = async () => {};
+cognito.signIn = async (email, password) => {
+  const params = {
+    AuthFlow: "USER_PASSWORD_AUTH",
+    ClientId: config.clientId,
+    AuthParameters: {
+      USERNAME: email,
+      PASSWORD: password,
+      SECRET_HASH: hashSecret(email),
+    },
+  };
+
+  try {
+    const res = await cognitoIdentity.initiateAuth(params);
+    console.log("SignIn success. Result: ", res);
+    return true;
+  } catch (e) {
+    console.log("SignIn fail. Error: ", e);
+    return false;
+  }
+};
 
 cognito.signUp = async (email, name, password) => {
   const params = {
     ClientId: config.clientId,
     Password: password,
     Username: email,
-    SecretHash: hashSecret(config.clientSecret, email, config.clientId),
+    SecretHash: hashSecret(email),
     UserAttributes: [
       {
         Name: "name",
@@ -34,9 +53,25 @@ cognito.signUp = async (email, name, password) => {
   }
 };
 
-function hashSecret(clientSecret, username, clientId) {
+cognito.verifyAccount = async (email, code) => {
+  const params = {
+    ClientId: config.clientId,
+    ConfirmationCode: code,
+    Username: email,
+    SecretHash: hashSecret(email),
+  };
+
+  try {
+    const res = await cognitoIdentity.confirmSignUp(params);
+    console.log("Verification success. Result: ", res);
+  } catch (e) {
+    console.log("Verification failed Error: ", e);
+  }
+};
+
+function hashSecret(username) {
   return crypto
-    .createHmac("SHA256", clientSecret)
-    .update(username + clientId)
+    .createHmac("SHA256", config.clientSecret)
+    .update(username + config.clientId)
     .digest("base64");
 }
