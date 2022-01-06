@@ -4,12 +4,9 @@ const validator = (type) => {
   switch (type) {
     case "signup":
       return [
-        body("username").notEmpty().isLength({ min: 6 }),
         body("email").notEmpty().normalizeEmail().isEmail(),
         body("password").isString().isLength({ min: 8 }),
-        body("birthdate").exists().isISO8601(),
         body("name").notEmpty().isString(),
-        body("family_name").notEmpty().isString(),
       ];
     case "signin":
       return [
